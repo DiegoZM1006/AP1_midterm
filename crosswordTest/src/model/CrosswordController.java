@@ -72,7 +72,7 @@ public class CrosswordController {
 		for (int i=0; i< crossword.length && !bandera; i++) {
 			for (int j=0; j< crossword[0].length && !bandera; j++) {
 				if(crossword[i][j].getState().equals(CellType.CLOSED) && letter.equals(crossword[i][j].getLetter())) {
-					out = "Hay una palabra con esa " + letter + " en el crucigrama";
+					out = "Hay una palabra con esa " + letter + " en el crucigrama en la casilla [" + i +"][" + j + "]";
 					crossword[i][j].setState(CellType.OPEN); 
 					bandera = true;
 				} else {
@@ -90,7 +90,17 @@ public class CrosswordController {
 	 * @return
 	 */
 	public String evaluateCell(String letter, int num) {
-		
+		String out = "";
+
+		for (int i=0; i< crossword.length; i++) {
+			for (int j=0; j< crossword[0].length; j++) {
+				if(letter.equals(crossword[i][j].getLetter()) && num == crossword[i][j].getNumber()) {
+					out = "La " + letter + " SI esta en la [" + i + "][" + j + "]";
+				} else {
+					out = "Lo siento, no hay palabras con esa " + letter;
+				}
+			}
+		}
 		return null;
 	}
 	
