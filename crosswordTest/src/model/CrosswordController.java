@@ -19,8 +19,23 @@ public class CrosswordController {
 	 * the initial state of a crossword puzzle
 	 */
 	public void initCrossword(String[][] puzzle) {
-		
-		
+		int filas = puzzle.length;
+		int columnas = puzzle[0].length;
+		crossword = new Cell[filas][columnas];
+		int contState = 1;
+
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++) {
+				if(puzzle[i][j].equals(" ")) {
+					// Cell theCell = new Cell(CellType.BLACK, " ", 0);
+					crossword[i][j] = new Cell(CellType.BLACK, " ", 0);
+				} else {
+					// Cell theCell = new Cell(CellType.CLOSED, puzzle[i][j], contState);
+					crossword[i][j] = new Cell(CellType.CLOSED, puzzle[i][j], contState);
+					contState += 1;
+				}
+			}
+		}
 	}
 	/**
 	 * Method to verify if a crossword puzzle is initialized
@@ -51,8 +66,21 @@ public class CrosswordController {
 	 * @return
 	 */
 	public String getHint(String letter) {
-		
-		return null;
+		String out = "";
+		boolean bandera = false;
+
+		for (int i=0; i< crossword.length && !bandera; i++) {
+			for (int j=0; j< crossword[0].length && !bandera; j++) {
+				if(crossword[i][j].getState().equals(CellType.CLOSED) && letter.equals(crossword[i][j].getLetter())) {
+					out = "Hay una palabra con esa " + letter + " en el crucigrama";
+					crossword[i][j].setState(CellType.OPEN); 
+					bandera = true;
+				} else {
+					out = "Lo siento, no hay palabras con esa " + letter;
+				}
+			}
+		}
+		return out;
 	}
 	
 	/**
@@ -119,6 +147,5 @@ public class CrosswordController {
 		out+= line + "\n";
 		return out;
 	}
-
 
 }
